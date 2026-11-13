@@ -47,7 +47,7 @@ function nativeReject(code: string): Error & { code: string } {
   return Object.assign(new Error(`native said ${code}`), { code });
 }
 
-const native: Spec = {
+const mockNative: Spec = {
   getDeviceCapabilities: jest.fn(async () => ({
     platform: 'ios' as const,
     osVersion: '18.0',
@@ -103,9 +103,13 @@ const native: Spec = {
   isPrivateModeEnabled: jest.fn(() => false),
 };
 
+// Imports are hoisted above this file's statements, so the factory runs before
+// mockNative is initialised; the getter defers the read to the first call.
 jest.mock('../specs/NativeAIToolkit', () => ({
   __esModule: true,
-  default: native,
+  get default() {
+    return mockNative;
+  },
 }));
 
 import {
