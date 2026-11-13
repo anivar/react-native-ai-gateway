@@ -102,8 +102,5 @@
       "javaPackageName": "com.anivar.ondeviceai"
     }
   },
-  "type": "commonjs",
-  "dependencies": {
-    "ws": "^7.5.11"
-  }
+  "type": "commonjs"
 }
