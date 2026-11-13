@@ -3,15 +3,15 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   transform: {
+    // TypeScript 7 ships no transpile API, so ts-jest cannot run on it. Babel
+    // strips the types; `npm run typecheck:tests` checks them.
     '^.+\\.(ts|tsx)$': [
-      'ts-jest',
+      'babel-jest',
       {
-        tsconfig: {
-          types: ['jest', 'node'],
-          esModuleInterop: true,
-          module: 'commonjs',
-          moduleResolution: 'node',
-        },
+        babelrc: false,
+        configFile: false,
+        presets: ['@babel/preset-typescript'],
+        plugins: ['@babel/plugin-transform-modules-commonjs'],
       },
     ],
   },
